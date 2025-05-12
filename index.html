@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Profil Pribadi">
+  <meta name="keywords" content="profil, pribadi">
+  <title>Profil Pribadi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    section {
+    background-color: #000000; /* Warna latar belakang */
+    color: #fff; /* Warna tulisan */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+    #gallery, #video {
+      display: none;
+    }
+    button {
+      background-color: #fff; /* Warna putih */
+  color: #333; /* Warna hitam */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+section.dark button {
+  background-color: #333; /* Warna hitam */
+  color: #fff; /* Warna putih */
+}
+
+section.light button {
+  background-color: #fff; /* Warna putih */
+  color: #333; /* Warna hitam */
+}
+    button:hover {
+      background-color: #FF0000;
+      transform: scale(1.1);
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      background-color: #000000;
+    }
+    .particle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #0f0;
+      animation: particle-animation 5s infinite;
+    }
+    @keyframes particle-animation {
+      0% {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(100px, 100px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles"></div>
+  <header>
+    <h1>Profil Pribadi</h1>
+  </header>
+  <main>
+    <section id="about">
+      <h2>Tentang Saya</h2>
+      <p>Hai, saya [Az -]. Saya seorang [Profesi/Pekerjaan].</p>
+      <div style="text-align: center;">
+        <img src="https://qu.ax/AJcMU.jpg" alt="Foto Profil" width="200" height="200">
+      </div>
+      <div style="text-align: center;">
+        <button id="show-gallery">Lihat Galeri</button>
+        <button id="show-video">Lihat Video</button>
+      </div>
+    </section>
+    <section id="gallery">
+      <h2>Galeri</h2>
+      <img src="https://qu.ax/msCyf.jpg" alt="Gambar 1" width="300" height="200">
+      <img src="https://qu.ax/FpXmq.jpg" alt="Gambar 2" width="300" height="200">
+    </section>
+    <section id="video">
+      <h2>Video</h2>
+      <video width="320" height="240" controls>
+        <source src="https://qu.ax/BSgQJ.mp4" type="video/mp4">
+      </video>
+    </section>
+    <audio autoplay loop>
+      <source src="https://qu.ax/udJFS.mp3" type="audio/mp3">
+    </audio>
+  </main>
+  <footer>
+    <div style="text-align: center;">
+      <p>&copy; 2023 Profil Pribadi</p>
+    </div>
+  </footer>
+  <script>
+    const particles = document.getElementById('particles');
+    for (let i = 0; i < 500; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDelay = `${Math.random() * 2}s`;
+      particles.appendChild(particle);
+    }
+    const showGalleryButton = document.getElementById('show-gallery');
+    const gallerySection = document.getElementById('gallery');
+    const showVideoButton = document.getElementById('show-video');
+    const videoSection = document.getElementById('video');
+    let galleryVisible = false;
+    let videoVisible = false;
+    showGalleryButton.addEventListener('click', () => {
+      if (galleryVisible) {
+        gallerySection.style.display = 'none';
+        galleryVisible = false;
+      } else {
+        gallerySection.style.display = 'block';
+        gallerySection.classList.add('fade-in');
+        galleryVisible = true;
+      }
+    });
+    showVideoButton.addEventListener('click', () => {
+      if (videoVisible) {
+        videoSection.style.display = 'none';
+        videoVisible = false;
+      } else {
+        videoSection.style.display = 'block';
+        videoSection.classList.add('fade-in');
+        videoVisible = true;
+      }
+    });
+    const footer = document.querySelector('footer');
+
+    function updateFooterColor() {
+      const particles = document.getElementById('particles');
+      const backgroundColor = window.getComputedStyle(particles).backgroundColor;
+      const rgb = backgroundColor.match(/\d+/g).map(Number);
+      const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+      footer.style.color = brightness < 128 ? '#fff' : '#333';
+    }
+
+    updateFooterColor();
+
+    new MutationObserver(() => {
+      updateFooterColor();
+    }).observe(document.getElementById('particles'), {
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+  </script>
+</body>
+</html>
