@@ -147,6 +147,26 @@ section.light button {
   text-align: center;
   margin-top: 5px;
 }
+.quote-box {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05), 0 0 10px rgba(255, 255, 255, 0.5) inset;
+  padding: 20px;
+  background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.quote-text {
+  font-size: 18px;
+  font-style: italic;
+  color: #fff;
+}
+
+.author-text {
+  font-size: 16px;
+  color: #fff;
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -178,6 +198,13 @@ section.light button {
         <source src="https://qu.ax/BSgQJ.mp4" type="video/mp4">
       </video>
     </section>
+   <div class="quote-container">
+  <blockquote class="quote-box">
+    <p id="quote" class="quote-text"></p>
+  <p id="author" class="author-text"></p>
+  </blockquote>
+</div>
+  </section>
     <audio autoplay loop>
       <source src="https://qu.ax/udJFS.mp3" type="audio/mp3">
     </audio>
@@ -259,6 +286,39 @@ section.light button {
       attributes: true,
       attributeFilter: ['style', 'class']
     });
+    const quoteElement = document.getElementById('quote');
+const authorElement = document.getElementById('author');
+
+const quotes = [
+  { quote: "Kehidupan adalah 10% apa yang terjadi pada Anda dan 90% bagaimana Anda bereaksi terhadap itu.", author: "Charles R. Swindoll" },
+  { quote: "Jangan menunggu kesempatan, ciptakanlah.", author: "Unknown" },
+  { quote: "Kunci kesuksesan adalah fokus pada tujuan, bukan pada hambatan.", author: "Unknown" },
+];
+
+function typeWriter(text, element, callback) {
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(interval);
+      callback();
+    }
+  }, 50);
+}
+
+function displayQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const randomQuote = quotes[randomIndex];
+  quoteElement.innerHTML = '';
+  authorElement.innerHTML = '';
+  typeWriter(randomQuote.quote, quoteElement, () => {
+    typeWriter(`- ${randomQuote.author}`, authorElement, () => {});
+  });
+}
+
+displayQuote();
   
 </script>
 </body>
