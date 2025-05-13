@@ -11,6 +11,20 @@
       margin: 0;
       padding: 0;
     }
+    #login-container {
+      width: 300px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #auth-code-container {
+      display: none;
+    }
+    #main-content {
+      display: none;
+    }
     header {
       background-color: #000000;
       color: #fff;
@@ -172,7 +186,25 @@ section.light button {
 </head>
 <body>
   <div id="particles"></div>
-  <header>
+<div id="login-container">
+  <form id="login-form">
+    <label>Username:</label>
+    <input type="text" id="username" />
+    <br />
+    <label>Password:</label>
+    <input type="password" id="password" />
+    <br />
+    <button type="submit">Login</button>
+  </form>
+  <div id="auth-code-container" style="display: none;">
+    <label>Kode Autentikasi:</label>
+    <input type="text" id="auth-code" />
+    <br />
+    <button id="verify-auth-code">Verifikasi</button>
+  </div>
+</div>
+<div id="main-content">
+<header>
     <h1>Profil Pribadi</h1>
   </header>
   <main>
@@ -233,6 +265,55 @@ section.light button {
 </div>
 </footer>
   <script>
+  	const loginForm = document.getElementById('login-form');
+const authCodeContainer = document.getElementById('auth-code-container');
+const verifyAuthCodeButton = document.getElementById('verify-auth-code');
+const mainContent = document.getElementById('main-content');
+
+let authCode = Math.floor(100000 + Math.random() * 900000);
+console.log(`Kode Autentikasi: ${authCode}`);
+
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log('Form submit');
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  if (username === 'admin' && password === 'admin123') {
+    console.log('Login berhasil');
+    document.getElementById('login-container').style.display = 'none';
+    mainContent.style.display = 'block';
+
+    const welcomeMessage = document.createElement('h1');
+welcomeMessage.textContent = 'Selamat datang!';
+welcomeMessage.style.color = 'green';
+welcomeMessage.style.width = '100%';
+welcomeMessage.style.textAlign = 'center';
+welcomeMessage.style.marginBottom = '20px';
+welcomeMessage.style.position = 'relative';
+welcomeMessage.style.animation = 'gerak 5s infinite';
+
+const style = document.createElement('style');
+style.innerHTML = `
+  @keyframes gerak {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+mainContent.style.position = 'relative';
+mainContent.style.overflow = 'hidden';
+mainContent.insertBefore(welcomeMessage, mainContent.firstChild);
+  } else {
+    console.log('Login gagal');
+    alert('Username atau password salah!');
+  }
+});
     const particles = document.getElementById('particles');
     for (let i = 0; i < 500; i++) {
       const particle = document.createElement('div');
